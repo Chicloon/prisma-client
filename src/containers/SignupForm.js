@@ -7,10 +7,10 @@ import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
-class LoginForm extends React.Component {
+class SignupForm extends React.Component {
   render() {
     const {
-      values, errors, handleChange, handleBlur, handleSubmit, dirty,
+      dirty, values, errors, handleChange, handleBlur, handleSubmit,
     } = this.props;
 
     const errorsValues = Object.values(errors);
@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
         <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
-              Log-in to your account
+              Register new account
             </Header>
             <Form size="large" onSubmit={handleSubmit}>
               <Segment stacked>
@@ -48,6 +48,17 @@ class LoginForm extends React.Component {
                   fluid
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  value={values.name}
+                  error={!!errors.name}
+                  name="name"
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="name"
+                />
+                <Form.Input
+                  fluid
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   value={values.password}
                   error={!!errors.password}
                   name="password"
@@ -63,7 +74,7 @@ class LoginForm extends React.Component {
                   size="large"
                   type="submit"
                 >
-                  Login
+                  SignUp
                 </Button>
               </Segment>
             </Form>
@@ -75,7 +86,7 @@ class LoginForm extends React.Component {
               </Message>
             )}
             <Message>
-              New to us? <Link to="/signup">Sign Up</Link>
+              Have account? <Link to="/login">Log In</Link>
             </Message>
           </Grid.Column>
         </Grid>
@@ -84,42 +95,56 @@ class LoginForm extends React.Component {
   }
 }
 
-const loginMutation = gql`
-  mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+const reigsterMutation = gql`
+  mutation($name: String!, $email: String!, $password: String!) {
+    signup(name: $name, email: $email, password: $password) {
       token
     }
   }
 `;
 
-// export default LoginForm;
-
 export default compose(
-  graphql(loginMutation),
+  graphql(reigsterMutation),
   withFormik({
-    mapPropsToValues: () => ({ email: '', password: '' }),
+    mapPropsToValues: () => ({ email: '', password: '', name: '' }),
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required!'),
-      password: Yup.string().required('Password is required!'),
+      password: Yup.string()
+        .min(5)
+        .max(100)
+        .required('Password is required!'),
+      name: Yup.string()
+        .min(3, 'Name must be a least ${min} chars long')
+        .max(25, 'Name must less than ${max} chars long')
+        .matches(/^[a-zA-Z0-9]*$/, 'The Name can only contain letters and numbers')
+        .required('Name is required!'),
     }),
 
     handleSubmit: async (values, { props: { mutate, history }, setSubmitting, setErrors }) => {
       const response = await mutate({
-        variables: { email: values.email, password: values.password },
+        variables: { email: values.email, password: values.password, name: values.name },
       }).catch((error) => {
-        const { graphQLErrors: { 0: { message } } } = error;
-        setErrors({ submit: message });
+        console.dir(error);
+        setErrors({ submit: 'email exists' });
       });
 
-      console.log(response);
-      const { token } = response.data.login;
-
-      localStorage.setItem('token', token);
-
+      console.log('submitted', response);
       setSubmitting(false);
-      history.push('/channels');
+      history.push('/');
+      // const {
+      //   ok, errors, token, refreshToken,
+      // } = response.data.register;
+      // if (ok) {
+      //   localStorage.setItem('token', token);
+      //   localStorage.setItem('refreshToken', refreshToken);
+      //   setSubmitting(false);
+      //   history.push('/');
+      // } else {
+      //   setErrors(normalizeErrors(errors));
+      //   setSubmitting(false);
+      // }
     },
   }),
-)(LoginForm);
+)(SignupForm);

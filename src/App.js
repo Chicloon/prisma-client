@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Test from './components/Test';
-import LoginFrom from './containers/LoginForm';
+import LoginForm from './containers/LoginForm';
+import SignupForm from './containers/SignupForm';
 
 class App extends Component {
   render() {
@@ -11,7 +12,8 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Test} />
-          <Route exact path="/login" component={LoginFrom} />
+          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/signup" component={SignupForm} />
         </Switch>
       </Router>
     );
