@@ -125,14 +125,22 @@ export default compose(
     handleSubmit: async (values, { props: { mutate, history }, setSubmitting, setErrors }) => {
       const response = await mutate({
         variables: { email: values.email, password: values.password, name: values.name },
-      }).catch((error) => {
-        console.dir(error);
-        setErrors({ submit: 'email exists' });
-      });
+      }).catch(({ message }) => {
+        console.log(message);
 
-      console.log('submitted', response);
+        if (message.includes('Field name = name')) {
+          setErrors({ username: 'Username taken' });
+        }
+        if (message.includes('Field name = email')) {
+          setErrors({ email: 'Email taken' });
+        }
+      });
       setSubmitting(false);
-      history.push('/');
+
+      if (response) {
+        localStorage.setItem('myapp/token', response.data.signup.token);
+        history.push('/');
+      }
       // const {
       //   ok, errors, token, refreshToken,
       // } = response.data.register;

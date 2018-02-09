@@ -14,7 +14,6 @@ class LoginForm extends React.Component {
     } = this.props;
 
     const errorsValues = Object.values(errors);
-
     return (
       <div className="login-form">
         <style>
@@ -108,18 +107,15 @@ export default compose(
     handleSubmit: async (values, { props: { mutate, history }, setSubmitting, setErrors }) => {
       const response = await mutate({
         variables: { email: values.email, password: values.password },
-      }).catch((error) => {
-        const { graphQLErrors: { 0: { message } } } = error;
-        setErrors({ submit: message });
+      }).catch(({ message }) => {
+        setErrors({ submit: message.slice(14) });
       });
 
-      console.log(response);
-      const { token } = response.data.login;
-
-      localStorage.setItem('token', token);
-
       setSubmitting(false);
-      history.push('/channels');
+      if (response) {
+        localStorage.setItem('myapp/token', response.data.login.token);
+        history.push('/');
+      }
     },
   }),
 )(LoginForm);
