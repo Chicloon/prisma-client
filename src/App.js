@@ -14,6 +14,7 @@ class App extends Component {
           <Route exact path="/" component={Test} />
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/signup" component={SignupForm} />
+          <Route exact path="/create-chat" component={CreateChat} />
         </Switch>
       </Router>
     );

@@ -116,6 +116,7 @@ export default compose(
         .max(100)
         .required('Password is required!'),
       name: Yup.string()
+        /* eslint-disable no-template-curly-in-string */
         .min(3, 'Name must be a least ${min} chars long')
         .max(25, 'Name must less than ${max} chars long')
         .matches(/^[a-zA-Z0-9]*$/, 'The Name can only contain letters and numbers')

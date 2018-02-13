@@ -7,7 +7,6 @@ module.exports = {
     'react/prop-types': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'react/prefer-stateless-function': 0,
-    'no-template-curly-in-string': 0,
   },
   globals: {
     document: 1,
