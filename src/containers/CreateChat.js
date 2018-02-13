@@ -1,12 +1,12 @@
 import React from 'react';
-import { Input, Modal, Button, Message } from 'semantic-ui-react';
+import { Input, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { MeQuerry } from '../queries';
+// import { ChannelsQuery } from '../graphql/querries';
 
 const CreateChannelButtonsWrapper = styled.div`
   padding-bottom: 12;
@@ -14,7 +14,7 @@ const CreateChannelButtonsWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const CreateChannelModal = ({
+const CreateChannel = ({
   open,
   onClose,
   values,
@@ -27,10 +27,10 @@ const CreateChannelModal = ({
 }) => {
   const errorsValues = Object.values(errors);
 
-  const closeAndReset = () => {
-    resetForm();
-    onClose();
-  };
+  // const closeAndReset = () => {
+  //   resetForm();
+  //   onClose();
+  // };
 
   return (
     <div style={{ padding: '12px' }}>
@@ -71,14 +71,8 @@ const CreateChannelModal = ({
 const createChannelMutation = gql`
   mutation($name: String!) {
     createChannel(name: $name) {
-      ok
-      errors {
-        message
-      }
-      channel {
-        name
-        id
-      }
+      name
+      id
     }
   }
 `;
@@ -102,29 +96,32 @@ export default compose(
         props: { mutate, onClose }, setSubmitting, setErrors, resetForm,
       },
     ) => {
-      const response = await mutate({
+      await mutate({
         variables: { name: values.channelName },
-        update: (store, { data: { createChannel } }) => {
-          const { ok, channel } = createChannel;
-          if (!ok) {
-            return;
-          }
+        // update: (store, { data: { createChannel } }) => {
+        //   const { ok, channel } = createChannel;
+        //   if (!ok) {
+        //     return;
+        //   }
 
-          const data = store.readQuery({ query: MeQuerry });
-          data.me.channels.push(channel);
-          store.writeQuery({ query: MeQuerry, data });
-        },
+        //   const data = store.readQuery({ query: MeQuerry });
+        //   data.me.channels.push(channel);
+        //   store.writeQuery({ query: MeQuerry, data });
+        // },
+      }).catch((error) => {
+        console.log(error);
+        // setErrors({ submit:  });
       });
 
-      const { ok, errors } = response.data.createChannel;
-      if (ok) {
-        onClose();
-        resetForm();
-        setSubmitting(false);
-      } else {
-        setErrors(normalizeErrors(errors));
-        setSubmitting(false);
-      }
+      // const { ok, errors } = response.data.createChannel;
+      // if (ok) {
+      //   onClose();
+      //   resetForm();
+      //   setSubmitting(false);
+      // } else {
+      //   setErrors(normalizeErrors(errors));
+      // }
+      setSubmitting(false);
     },
   }),
-)(CreateChannelModal);
+)(CreateChannel);
