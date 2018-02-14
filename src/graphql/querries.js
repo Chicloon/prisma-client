@@ -17,4 +17,18 @@ export const ChannelsQuery = gql`
   }
 `;
 
-export const none = '';
+export const meQuerry = gql`
+  {
+    me {
+      id
+      name
+      channels {
+        id
+        member {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
