@@ -2,7 +2,7 @@ import React from 'react';
 import {} from 'semantic-ui-react';
 import { graphql, compose } from 'react-apollo';
 
-import { ChannelsQuery } from '../graphql/querries';
+import { ChannelsQuery } from '../graphql/queries';
 
 const CreateChannel = ({ data: { loading, channels } }) => {
   if (loading) {

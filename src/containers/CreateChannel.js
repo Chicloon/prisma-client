@@ -1,12 +1,14 @@
 import React from 'react';
-import { Input, Button, Message } from 'semantic-ui-react';
+import { Input, Modal, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-// import { ChannelsQuery } from '../graphql/querries';
+// import { ChannelsQuery } from '../graphql/queries';
+
+// import ColumnHeaderWrapper from '../layouts/HeaderLayout';
 
 const CreateChannelButtonsWrapper = styled.div`
   padding-bottom: 12;
@@ -27,44 +29,53 @@ const CreateChannel = ({
 }) => {
   const errorsValues = Object.values(errors);
 
-  // const closeAndReset = () => {
-  //   resetForm();
-  //   onClose();
-  // };
+  const closeAndReset = () => {
+    console.log('modal triggered');
+    resetForm();
+    onClose();
+  };
 
   return (
-    <div style={{ padding: '12px' }}>
-      <form onSubmit={handleSubmit}>
-        <Input
-          autoFocus
-          fluid
-          placeholder="New channel name"
-          id="channelName"
-          name="channelName"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.channelName}
-          error={!!errors.channelName}
-        />
-        {errorsValues.length !== 0 && (
-          <Message negative>
-            <ul style={{ listStyle: 'none' }}>
-              {errorsValues.map(error => <li key={error}>{error}</li>)}
-            </ul>
-          </Message>
-        )}
-        <CreateChannelButtonsWrapper>
-          <Button
-            disabled={errorsValues.length !== 0}
-            primary
-            style={{ width: '50%', marginTop: '12px' }}
-            type="submit"
-          >
-            Create
-          </Button>
-        </CreateChannelButtonsWrapper>
-      </form>
-    </div>
+    <Modal size="tiny" style={{ marginTop: '-30vh' }} open={open} onClose={closeAndReset}>
+      <div>
+        <span style={{ flexGrow: 1, paddingLeft: '24px' }}> New Channel</span>
+        <span onClick={closeAndReset} style={{ cursor: 'pointer', paddingRight: '24px' }}>
+          Close
+        </span>
+      </div>
+      <div style={{ padding: '12px' }}>
+        <form onSubmit={handleSubmit}>
+          <Input
+            autoFocus
+            fluid
+            placeholder="New channel name"
+            id="channelName"
+            name="channelName"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.channelName}
+            error={!!errors.channelName}
+          />
+          {errorsValues.length !== 0 && (
+            <Message negative>
+              <ul style={{ listStyle: 'none' }}>
+                {errorsValues.map(error => <li key={error}>{error}</li>)}
+              </ul>
+            </Message>
+          )}
+          <CreateChannelButtonsWrapper>
+            <Button
+              disabled={errorsValues.length !== 0}
+              primary
+              style={{ width: '50%', marginTop: '12px' }}
+              type="submit"
+            >
+              Create
+            </Button>
+          </CreateChannelButtonsWrapper>
+        </form>
+      </div>
+    </Modal>
   );
 };
 
@@ -78,7 +89,7 @@ const createChannelMutation = gql`
 `;
 
 export default compose(
-  graphql(createChannelMutation),
+  // graphql(createChannelMutation),
   withFormik({
     mapPropsToValues: () => ({ channelName: '' }),
     validateOnBlur: false,
@@ -123,5 +134,4 @@ export default compose(
       // }
       setSubmitting(false);
     },
-  }),
-)(CreateChannel);
+  }))(CreateChannel);

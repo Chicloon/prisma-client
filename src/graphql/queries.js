@@ -5,13 +5,14 @@ export const ChannelsQuery = gql`
     channels {
       id
       name
-      owner {
-        id
-      }
       members {
-        name {
+        id
+        member {
           id
+          name
+          email
         }
+        role
       }
     }
   }
