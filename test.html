@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Утро</title>
+  <!-- <link rel="stylesheet" href="style - копия - копия.css"> -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrapper {
+      background: gray;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      max-width: 1010px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: gold;
+      display: flex;
+      max-height: 50px
+    }
+
+    .side-header {
+      /* flex-basis: 0; */
+    }
+
+    .left-side {
+      background: firebrick;
+      width: 31%
+    }
+
+    .right-side {
+      background: yellowgreen;
+      width: 69%
+    }
+
+    .left-menu {
+      position: absolute;
+      background: violet
+    }
+
+
+
+    .main-content {
+      color: greenyellow
+    }
+  </style>
+
+  <body>
+
+    <div class="wrapper">
+      <div class="header">
+        <div class="left-side side-header">
+          <p>Left side Lorem ipsum dolor sit amet consectetur adipisicing elit. Id incidunt odio numquam voluptatibus possimus
+            doloribus ut quibusdam, dolorem nulla dicta eligendi quidem vitae necessitatibus rem accusamus
+            <p>
+              <p>nihil veniam sit et. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem odit aut unde doloribus
+                incidunt quia, maiores molestias id illum perferendis laudantium magni temporibus voluptatum, quasi nemo
+                iusto, sint nesciunt quis.</p>
+              <div class="left-menu">Left menu</div>
+        </div>
+        <div class="right-side side-header"> right side </div>
+
+      </div>
+      <div class="main-content">main content</div>
+    </div>
+  </body>
+
+</html>

@@ -11,7 +11,6 @@ const MenuWrapper = styled.ul`
   border: 1px solid #b5c3d0;
   color: #42749b;
   top: 48px;
-  height: 200px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -46,7 +45,6 @@ class LeftMenu extends React.Component {
     const { newChannelModalTrigger, logoutTrigger } = this.props;
     return (
       <MenuWrapper>
-        <h1> The left menu!!!!</h1>
         <li onClick={newChannelModalTrigger}>
           <Icon style={{ marginRight: '38px', marginTop: '3px' }} name="users" />{' '}
           <span> New channel </span>

@@ -14,7 +14,6 @@ const style = {
     borderLeft: '1px solid #dfe5ec',
     borderRight: '1px solid #dfe5ec',
     borderBottom: '1px solid #d2dbe3',
-    overflow: 'hidden',
   },
   rowTwo: {
     flex: '1 1 auto',
@@ -25,7 +24,6 @@ const style = {
     borderLeft: '1px solid #dfe5ec',
     borderRight: '1px solid #dfe5ec',
     borderBottom: '1px solid #d2dbe3',
-    overflow: 'hidden',
   },
   mainGrid: {
     height: ' 100vh',
