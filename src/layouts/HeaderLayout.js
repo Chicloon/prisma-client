@@ -54,7 +54,7 @@ class HeaderLayout extends React.Component {
       <React.Fragment>
         <Grid.Column width={5} style={{ padding: 0 }}>
           <ColumnHeaderWrapper>
-            <LeftHeader>{/* <LeftMenu /> */}</LeftHeader>
+            <LeftHeader />
           </ColumnHeaderWrapper>
         </Grid.Column>
 
