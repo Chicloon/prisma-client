@@ -1,6 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { Container, Grid } from 'semantic-ui-react';
+import jwtDecode from 'jwt-decode';
 
 import HeaderLayout from './HeaderLayout';
 import MainContentLayout from './MainContentLayout';
@@ -34,19 +35,34 @@ const style = {
   },
 };
 
-const MainLayout = props => (
-  <div style={{ background: '#e7ebf0', height: '100%' }}>
-    <Container>
-      <Grid style={style.mainGrid}>
-        <Grid.Row columns={2} stretched style={style.rowOne}>
-          <HeaderLayout />
-        </Grid.Row>
-        <Grid.Row columns={2} stretched style={style.rowTwo}>
-          <MainContentLayout>{props.children}</MainContentLayout>
-        </Grid.Row>
-      </Grid>
-    </Container>
-  </div>
-);
+class MainLayout extends React.Component {
+  render() {
+    let token;
+    try {
+      token = jwtDecode(localStorage.getItem('myapp/token'));
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (!token) {
+      return <Redirect to="/login" />;
+    }
+
+    return (
+      <div style={{ background: '#e7ebf0', height: '100%' }}>
+        <Container>
+          <Grid style={style.mainGrid}>
+            <Grid.Row columns={2} stretched style={style.rowOne}>
+              <HeaderLayout />
+            </Grid.Row>
+            <Grid.Row columns={2} stretched style={style.rowTwo}>
+              <MainContentLayout>{this.props.children}</MainContentLayout>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      </div>
+    );
+  }
+}
 
 export default withRouter(MainLayout);

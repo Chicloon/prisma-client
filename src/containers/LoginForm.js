@@ -111,11 +111,12 @@ export default compose(
         setErrors({ submit: message.slice(14) });
       });
 
-      setSubmitting(false);
       if (response) {
         localStorage.setItem('myapp/token', response.data.login.token);
         history.push('/');
+        setSubmitting(false);
       }
+      setSubmitting(false);
     },
   }),
 )(LoginForm);

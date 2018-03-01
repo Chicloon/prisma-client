@@ -10,6 +10,7 @@ const CreateChannel = ({ data: { loading, channels } }) => {
   }
   return (
     <div style={{ padding: '12px' }}>
+      <h1>Channel list </h1>
       <ul>{channels.map(channel => <li key={`channel-${channel.id}`}> {channel.name}</li>)}</ul>
     </div>
   );
