@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, Icon, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
 
+import ChannelsList from '../containers/ChannelList';
+
 const LeftHeaderWrapper = styled.div`
   align-self: center;
   flex-grow: 1;
@@ -47,6 +49,7 @@ class HeaderLayout extends React.Component {
     // const { data: { loading, me } } = this.props;
     // console.log(this.props);
     // if (loading) return <div />;
+    const { me } = this.props;
     return (
       // <Grid.Row>
       <React.Fragment>
@@ -61,7 +64,7 @@ class HeaderLayout extends React.Component {
               <Icon name="search" flipped="horizontally" style={{ left: 'auto' }} />
               <input style={{ background: '#F2F2F2' }} />
             </Input>
-            {/* <ChannelsList me={me} /> */}
+            <ChannelsList channels={me.channels} />
           </div>
         </Grid.Column>
 

@@ -4,7 +4,7 @@ import { graphql, compose } from 'react-apollo';
 
 import { ChannelsQuery } from '../graphql/queries';
 
-const CreateChannel = ({ data: { loading, channels } }) => {
+const CreateChannel = ({ data: { loading }, channels }) => {
   if (loading) {
     return null;
   }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Container, Grid } from 'semantic-ui-react';
-import jwtDecode from 'jwt-decode';
+import { graphql, compose } from 'react-apollo';
+
+import { meQuerry } from '../graphql/queries';
 
 import HeaderLayout from './HeaderLayout';
 import MainContentLayout from './MainContentLayout';
@@ -37,14 +39,14 @@ const style = {
 
 class MainLayout extends React.Component {
   render() {
-    let token;
-    try {
-      token = jwtDecode(localStorage.getItem('myapp/token'));
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(this.props);
+    const { data: { loading, error, me } } = this.props;
 
-    if (!token) {
+    if (loading) {
+      return null;
+    }
+    if (error) {
+      console.error(error.message);
       return <Redirect to="/login" />;
     }
 
@@ -56,7 +58,7 @@ class MainLayout extends React.Component {
               <HeaderLayout />
             </Grid.Row>
             <Grid.Row columns={2} stretched style={style.rowTwo}>
-              <MainContentLayout>{this.props.children}</MainContentLayout>
+              <MainContentLayout me={me}>{this.props.children}</MainContentLayout>
             </Grid.Row>
           </Grid>
         </Container>
@@ -65,4 +67,6 @@ class MainLayout extends React.Component {
   }
 }
 
-export default withRouter(MainLayout);
+export default withRouter(compose(graphql(meQuerry))(MainLayout));
+
+// export default withRouter(MainLayout);
